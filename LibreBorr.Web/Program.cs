@@ -6,6 +6,9 @@ using LibreBorr.Web.GraphQl.Queries;
 using LibreBorr.Web.Subscriptions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddUserSecrets<Program>();
+
 builder.Host.ConfigureLogging(logging =>
 {
     logging.ClearProviders();
@@ -14,7 +17,7 @@ builder.Host.ConfigureLogging(logging =>
 
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration["DB_CONNECTION_STRING"];;
 builder.Services.AddServiceLayer(connectionString);
 builder.Services.AddCors(options =>
 {

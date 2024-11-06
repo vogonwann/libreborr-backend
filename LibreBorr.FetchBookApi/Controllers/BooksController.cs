@@ -9,11 +9,11 @@ namespace LibreBorr.FetchBookApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BooksController(IGoogleBooksApi googleBooksApi, IGoogleBooksImageApi googleBooksImageApi, ILogger<BooksController> logger) : ControllerBase
+    public class BooksController(IGoogleBooksApi googleBooksApi, IGoogleBooksImageApi googleBooksImageApi, ILogger<BooksController> logger, IConfiguration configuration) : ControllerBase
     {
         private readonly ILogger _logger = logger;
 
-        private readonly string _googleBooksApiKey = "AIzaSyCYtTHPWT583k6NoUFbI7Eg6F0qqSD10X0";
+        private readonly string _googleBooksApiKey = configuration["GOOGLE_API_KEY"]!;
 
         [HttpGet]
         public async Task<GoogleBooksList?> GetBooks([FromQuery] [Required] string book)

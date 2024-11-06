@@ -2,6 +2,9 @@ using LibreBorr.FetchBookApi.Refit;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddUserSecrets<Program>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost4200", policy =>

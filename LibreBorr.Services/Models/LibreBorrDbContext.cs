@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class LibreBorrDbContext : DbContext
 {
+    public LibreBorrDbContext() {}
     public LibreBorrDbContext(DbContextOptions<LibreBorrDbContext> dbContextOptions) : base(dbContextOptions) { }
     public DbSet<Author> Authors { get; set; }
     public DbSet<Book?> Books { get; set; }

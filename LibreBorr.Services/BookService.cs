@@ -24,7 +24,7 @@ public class BookService : IBookService
             .ToListAsync();
     }
 
-    public async Task CreateBook(Book? book)
+    public async Task<Book> CreateBook(Book? book)
     {
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
@@ -48,15 +48,17 @@ public class BookService : IBookService
         await context.SaveChangesAsync();
 
         await transaction.CommitAsync();
+
+        return book;
     }
 
-    public async Task UpdateBook(Book bookRequest)
+    public async Task<Book?> UpdateBook(Book bookRequest)
     {
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
         var bookToUpdate = context.Books.Include(book => book.Tags)!.ThenInclude(tag => tag.Books)
             .FirstOrDefault(b => b.Id == bookRequest.Id);
-        if (bookToUpdate == null) return;
+        if (bookToUpdate == null) return null;
 
         var tags = context.Tags.Where(tag => tag.Books.Any(b => b.Id == bookRequest.Id)).ToList();
         tags.ForEach(t => t.Books.Remove(bookRequest));
@@ -83,6 +85,8 @@ public class BookService : IBookService
         context.Update(bookToUpdate);
 
         await context.SaveChangesAsync();
+        
+        return bookToUpdate;
     }
 
     public async Task<Book?> GetBook(int id)
@@ -92,7 +96,7 @@ public class BookService : IBookService
         return await context.Books.FirstOrDefaultAsync(b => b.Id == id);
     }
 
-    public async void DeleteBook(Book book)
+    public async Task<int> DeleteBook(Book book)
     {
         await using var context = _dbContextFactory.CreateDbContext();
         await using var transaction = await context.Database.BeginTransactionAsync();
@@ -108,6 +112,8 @@ public class BookService : IBookService
 
         await context.SaveChangesAsync();
         await transaction.CommitAsync();
+
+        return book.Id;
     }
 
     public async Task AddToWishlist(Book book)

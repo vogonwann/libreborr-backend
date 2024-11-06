@@ -5,10 +5,10 @@ namespace LibreBorr.Services.Interfaces;
 public interface IBookService
 {
     Task<List<Book>> GetBooks();
-    Task CreateBook(Book? book);
-    Task UpdateBook(Book bookRequest);
+    Task<Book> CreateBook(Book? book);
+    Task<Book?> UpdateBook(Book bookRequest);
     Task<Book?> GetBook(int id);
-    void DeleteBook(Book book);
+    Task<int> DeleteBook(Book book);
     Task AddToWishlist(Book book);
 
     Task<List<Book>> GetWishlist();

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibreBorr.Web", "LibreBorr.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibreBorr.FetchBookApi", "LibreBorr.FetchBookApi\LibreBorr.FetchBookApi.csproj", "{3B67A9D7-CB7A-4EED-A3FF-B1C9AF63AD84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibreBorr.Tests", "LibreBorr.Tests\LibreBorr.Tests.csproj", "{864514E7-D034-498D-ACE2-13F5F61D66D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{3B67A9D7-CB7A-4EED-A3FF-B1C9AF63AD84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B67A9D7-CB7A-4EED-A3FF-B1C9AF63AD84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B67A9D7-CB7A-4EED-A3FF-B1C9AF63AD84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{864514E7-D034-498D-ACE2-13F5F61D66D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{864514E7-D034-498D-ACE2-13F5F61D66D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{864514E7-D034-498D-ACE2-13F5F61D66D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{864514E7-D034-498D-ACE2-13F5F61D66D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

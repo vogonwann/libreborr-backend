@@ -17,16 +17,18 @@ public class BooksContext : IBooksContext
         _mapper = mapper;
     }
 
-    public async Task CreateBook(Book book)
+    public async Task<Book> CreateBook(Book book)
     {
         var bookRequest = _mapper.Map<Services.Models.Book>(book);
-        await _bookService.CreateBook(bookRequest);
+        var bookCreated = await _bookService.CreateBook(bookRequest);
+        return _mapper.Map<Book>(bookCreated);
     }
 
-    public async Task UpdateBook(Book book)
+    public async Task<Book> UpdateBook(Book book)
     {
         var bookRequest = _mapper.Map<Services.Models.Book>(book);
-        await _bookService.UpdateBook(bookRequest);
+        var updatedBook = await _bookService.UpdateBook(bookRequest);
+        return _mapper.Map<Book>(updatedBook);
     }
 
     public async Task<Book?> GetBook(int id)
@@ -36,9 +38,10 @@ public class BooksContext : IBooksContext
         return _mapper.Map<Book>(book);
     }
 
-    public async Task DeleteBook(Book blBook)
+    public async Task<int?> DeleteBook(Book blBook)
     {
         _bookService.DeleteBook(_mapper.Map<Services.Models.Book>(blBook));
+        return blBook.Id;
     }
 
     public async Task AddToWishlist(Book blBook)
