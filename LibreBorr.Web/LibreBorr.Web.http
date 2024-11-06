@@ -1,0 +1,6 @@
+@LibreBorr.Web_HostAddress = http://localhost:5047
+
+GET {{LibreBorr.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
