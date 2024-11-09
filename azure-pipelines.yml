@@ -8,7 +8,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  dotnetVersion: '9.x.x'
+  dotnetVersion: '9.x'
 
 steps:
   - task: UseDotNet@2
