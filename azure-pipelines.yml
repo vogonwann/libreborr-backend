@@ -14,7 +14,7 @@ steps:
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
-      version: '9.0.0-rc.2'
+      version: '9.x'
       includePreviewVersions: true
 
   - task: DotNetCoreCLI@2
