@@ -8,7 +8,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  version: '9.0.0-rc.2'
+  version: '9.x'
   includePreviewVersions: true
 
 steps:
