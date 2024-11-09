@@ -9,6 +9,10 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  acrName: 'LibreBorrContainers'  # Zameni sa imenom svog ACR-a
+  apiImage1: 'libreborr-web'
+  apiImage2: 'libreborr-fetchbookapi'
+  imageTag: '$(Build.BuildId)'  # Jedinstveni tag za svaku izgradnju
 
 steps:
   - task: UseDotNet@2
@@ -38,3 +42,28 @@ steps:
     inputs:
       pathToPublish: '$(Build.ArtifactStagingDirectory)'
       artifactName: 'drop'
+
+  # Docker login to ACR
+  - task: Docker@2
+    inputs:
+      command: 'login'
+      containerRegistry: '$(acrName).azurecr.io'
+      azureSubscription: '<IME_AZURE_SUBSCRIPTION>'  # Zameni sa nazivom svoje Azure pretplate
+
+  # Build and push API 1 Docker image
+  - task: Docker@2
+    inputs:
+      command: 'buildAndPush'
+      repository: '$(acrName).azurecr.io/$(apiImage1)'
+      tags: '$(imageTag)'
+      dockerfile: 'LibreBorr.Web/Dockerfile'  # Putanja do Dockerfile-a za prvi API
+      containerRegistry: '$(acrName).azurecr.io'
+
+  # Build and push API 2 Docker image
+  - task: Docker@2
+    inputs:
+      command: 'buildAndPush'
+      repository: '$(acrName).azurecr.io/$(apiImage2)'
+      tags: '$(imageTag)'
+      dockerfile: 'LibreBorr.FetchBookApi/Dockerfile'  # Putanja do Dockerfile-a za drugi API
+      containerRegistry: '$(acrName).azurecr.io'
