@@ -9,7 +9,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  acrName: 'libreborrcontainers/libreborr'  # Zameni sa imenom svog ACR-a
+  acrName: 'libreborrcontainers'  # Zameni sa imenom svog ACR-a
   apiImage1: 'libreborr-web'
   apiImage2: 'libreborr-fetchbookapi'
   imageTag: '$(Build.BuildId)'  # Jedinstveni tag za svaku izgradnju
