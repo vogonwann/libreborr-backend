@@ -1,6 +1,6 @@
 @LibreBorr.FetchBookApi_HostAddress = http://localhost:5104
 
-GET {{LibreBorr.FetchBookApi_HostAddress}}/weatherforecast/
+GET {{LibreBorr.FetchBookApi_HostAddress}}/libreborr/
 Accept: application/json
 
 ###

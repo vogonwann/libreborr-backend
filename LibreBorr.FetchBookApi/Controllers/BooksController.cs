@@ -13,7 +13,7 @@ namespace LibreBorr.FetchBookApi.Controllers
     {
         private readonly ILogger _logger = logger;
 
-        private readonly string _googleBooksApiKey = configuration["GOOGLE_API_KEY"]!;
+        private readonly string _googleBooksApiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY") ?? configuration["GOOGLE_API_KEY"]!;
 
         [HttpGet]
         public async Task<GoogleBooksList?> GetBooks([FromQuery] [Required] string book)

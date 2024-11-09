@@ -1,8 +1,7 @@
-using LibreBorr.BL.GraphQl.Inputs;
 using LibreBorr.Web.GraphQl.Mutations;
 using LibreBorr.Web.Responses;
 
-namespace LibreBorr.Web.Subscriptions;
+namespace LibreBorr.Web.GraphQl.Subscriptions;
 
 public class BookSubscription
 {

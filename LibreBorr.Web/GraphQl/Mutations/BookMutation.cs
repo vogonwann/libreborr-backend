@@ -7,15 +7,16 @@ using LibreBorr.Web.Responses;
 namespace LibreBorr.Web.GraphQl.Mutations;
 
 [ExtendObjectType(Name = "Mutation")]
-public class BookMutation(IBooksContext context, ILogger<BookMutation> logger, IMapper mapper, IHttpClientFactory httpClientFactory)
+public class BookMutation(IBooksContext context, ILogger<BookMutation> logger, IMapper mapper, IHttpClientFactory httpClientFactory, IConfiguration configuration)
 {
     private readonly ILogger _logger = logger;
 
     public async Task<BookResponse?> CreateBook(BookInput bookInput, [Service] ITopicEventSender sender, CancellationToken cancellationToken)
     {
         var encodedImageUrl = Uri.EscapeDataString(bookInput.Image);
+        var fetchBookImageApiUrl = configuration.GetSection("FetchBookApi").GetSection("ImageEndpoint").Value ?? "http://localhost:5104/api/books/images?imageUrl=";
         var httpRequestMessage =
-            new HttpRequestMessage(HttpMethod.Get, $"http://localhost:5104/api/books/images?imageUrl={encodedImageUrl}"); // TODO: add to config
+            new HttpRequestMessage(HttpMethod.Get, $"{fetchBookImageApiUrl}{encodedImageUrl}"); // TODO: add to config
         var httpClient = httpClientFactory.CreateClient();
         var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
         if (httpResponseMessage.IsSuccessStatusCode)

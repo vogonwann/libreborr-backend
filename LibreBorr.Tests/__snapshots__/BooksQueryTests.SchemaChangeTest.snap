@@ -1,0 +1,78 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: BookSubscription
+}
+
+type Book {
+  id: Int
+  title: String
+  description: String
+  image: [Byte!]!
+  authors: String
+  genres: String
+  isbn: String
+  year: Int
+  tags: [Tag!]
+}
+
+type BookResponse {
+  id: Int
+  title: String
+  description: String
+  action: String!
+  message: String!
+  error: ErrorResponsePart
+}
+
+type BookSubscription {
+  onBookAdded: BookResponse!
+  bookUpdated: BookResponse!
+  onBookDeleted: BookResponse!
+}
+
+type ErrorResponsePart {
+  innerMessage: String
+  message: String
+  code: Int!
+}
+
+type Friend {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  nickname: String
+  books: [Book!]
+}
+
+type Mutation {
+  createBook(bookInput: BookInput!): BookResponse
+  updateBook(bookInput: BookInput!): BookResponse
+  deleteBook(bookInput: BookInput!): BookResponse!
+}
+
+type Query {
+  books: [Book!]
+  book(id: Int!): Book
+  wishlistBooks: [Book!]
+  friends: [Friend!]!
+}
+
+type Tag {
+  name: String!
+}
+
+input BookInput {
+  id: Int
+  title: String
+  year: Int
+  isbn: String
+  description: String
+  image: String
+  authors: String
+  genres: String
+  tags: String
+}
+
+"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
+scalar Byte

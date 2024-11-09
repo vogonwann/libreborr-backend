@@ -3,7 +3,7 @@ using LibreBorr.Services.Extensions;
 using LibreBorr.Services.Models;
 using LibreBorr.Web.GraphQl.Mutations;
 using LibreBorr.Web.GraphQl.Queries;
-using LibreBorr.Web.Subscriptions;
+using LibreBorr.Web.GraphQl.Subscriptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,7 @@ builder.Host.ConfigureLogging(logging =>
 
 // Add services to the container.
 
-var connectionString = builder.Configuration["DB_CONNECTION_STRING"];;
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? builder.Configuration["DB_CONNECTION_STRING"];;
 builder.Services.AddServiceLayer(connectionString);
 builder.Services.AddCors(options =>
 {
