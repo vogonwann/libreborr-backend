@@ -2,20 +2,20 @@ trigger:
   branches:
     include:
       - main
+      - develop
 
 pool:
   vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
-  version: '9.x'
-  includePreviewVersions: true
 
 steps:
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
-      version: '$(dotnetVersion)'
+      version: '9.0.0-rc.2'
+      includePreviewVersions: true
 
   - task: DotNetCoreCLI@2
     inputs:
