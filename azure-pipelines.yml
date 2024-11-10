@@ -111,7 +111,7 @@ steps:
       dockerfile: '$(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile'
       buildContext: '$(Build.SourcesDirectory)'
       tags: '$(imageTag)'
-      containerRegistry: '$(acrServiceConnection)'  # Назив Azure сервисне везе за ACR
+      containerRegistry: '$(dockerRegistryServiceConnection)'  # Назив Azure сервисне везе за ACR
 
   - task: Docker@2
     displayName: 'Build and Push LibreBorr.FetchBookApi Docker image to ACR'
@@ -121,5 +121,5 @@ steps:
       dockerfile: '$(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile'
       buildContext: '$(Build.SourcesDirectory)'
       tags: '$(imageTag)'
-      containerRegistry: '$(acrServiceConnection)'  # Назив Azure сервисне везе за ACR
+      containerRegistry: '$(dockerRegistryServiceConnection)'  # Назив Azure сервисне везе за ACR
 
