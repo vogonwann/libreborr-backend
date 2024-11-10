@@ -6,7 +6,7 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
-
+  
 variables:
   buildConfiguration: 'Release'
   acrName: 'libreborrcontainers'  # Zameni sa imenom svog ACR-a
@@ -15,6 +15,11 @@ variables:
   imageTag: '$(Build.BuildId)'  # Jedinstveni tag za svaku izgradnju
 
 steps:
+  - task: Checkout@1
+    displayName: 'Checkout repository'
+    inputs:
+      clean: true
+      
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
