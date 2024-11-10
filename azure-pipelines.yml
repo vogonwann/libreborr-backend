@@ -19,6 +19,11 @@ steps:
   - checkout: self
     persistCredentials: true
     clean: true
+    
+  # Pull ASP.NET image first
+  - script: |
+      docker pull mcr.microsoft.com/dotnet/aspnet:9.0
+    displayName: 'Pull ASP.NET Docker Image'
       
   - task: UseDotNet@2
     inputs:
@@ -73,10 +78,6 @@ steps:
       context: '$(Build.SourcesDirectory)'
       containerRegistry: '$(acrName).azurecr.io'
       arguments: '--platform linux/amd64'
-      
-  - script: |
-      export DOCKER_BUILDKIT=0
-    displayName: 'Build Docker Image with BuildKit Disabled'
 
   # Build and push API 2 Docker image
   - task: Docker@2
