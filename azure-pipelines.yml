@@ -72,9 +72,9 @@ steps:
   # Disable BuildKit and build Docker image for API 1
   - script: |
       export DOCKER_BUILDKIT=0
-      docker build -t $(acrName).azurecr.io/$(apiImage1):$(imageTag) \
+      docker build -t $(acrName).azurecr.io/$(apiImage1):latest \
       -f $(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile \
-      --platform linux/amd64 $(Build.SourcesDirectory)
+      --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
 
     displayName: 'Build Docker Image for API 1 with DOCKER_BUILDKIT Disabled'
 
@@ -83,7 +83,7 @@ steps:
     inputs:
       command: push
       repository: $(acrName).azurecr.io/$(apiImage1)
-      tags: $(imageTag)
+      tags: latest
       containerRegistry: $(dockerRegistryServiceConnection)
       arguments: '--debug'
 
