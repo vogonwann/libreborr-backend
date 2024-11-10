@@ -61,7 +61,7 @@ steps:
       repository: '$(acrName).azurecr.io/$(apiImage1)'
       tags: '$(imageTag)'
       dockerfile: '$(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile'  # Putanja do Dockerfile-a za prvi API
-      context: '$(Build.SourcesDirectory)/LibreBorr.Web'
+      context: '$(Build.SourcesDirectory)'
       containerRegistry: '$(acrName).azurecr.io'
       arguments: '--platform linux/amd64'
 
@@ -72,6 +72,6 @@ steps:
       repository: '$(acrName).azurecr.io/$(apiImage2)'
       tags: '$(imageTag)'
       dockerfile: '$(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile'  # Putanja do Dockerfile-a za drugi API
-      context: '$(Build.SourcesDirectory)/LibreBorr.FetchBookApi'
+      context: '$(Build.SourcesDirectory)'
       containerRegistry: '$(acrName).azurecr.io'
       arguments: '--platform linux/amd64'
