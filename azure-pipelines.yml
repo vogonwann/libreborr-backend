@@ -42,6 +42,10 @@ steps:
     inputs:
       pathToPublish: '$(Build.ArtifactStagingDirectory)'
       artifactName: 'drop'
+      
+  - script: |
+      ls -R $(Build.SourcesDirectory)
+    displayName: 'List files in source directory'
 
   # Docker login to ACR
   - task: Docker@2
