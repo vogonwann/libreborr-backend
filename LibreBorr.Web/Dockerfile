@@ -10,7 +10,7 @@ WORKDIR /src
 COPY ["LibreBorr.Web/LibreBorr.Web.csproj", "LibreBorr.Web/"]
 COPY ["LibreBorr.BL/LibreBorr.BL.csproj", "LibreBorr.BL/"]
 COPY ["LibreBorr.Services/LibreBorr.Services.csproj", "LibreBorr.Services/"]
-RUN dotnet restore "LibreBorr.Web/LibreBorr.Web.csproj"
+RUN dotnet restore "LibreBorr.Web/LibreBorr.Web.csproj" --no-cache
 COPY . .
 WORKDIR "/src/LibreBorr.Web"
 RUN dotnet build "LibreBorr.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build

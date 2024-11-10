@@ -7,7 +7,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-RUN dotnet restore "LibreBorr.FetchBookApi/LibreBorr.FetchBookApi.csproj"
+RUN dotnet restore "LibreBorr.FetchBookApi/LibreBorr.FetchBookApi.csproj" --no-cache
 COPY . .
 WORKDIR "/src/LibreBorr.FetchBookApi"
 RUN dotnet build "LibreBorr.FetchBookApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
