@@ -84,7 +84,7 @@ steps:
       dockerfile: '$(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile'  # Putanja do Dockerfile-a za prvi API
       context: '$(Build.SourcesDirectory)'
       containerRegistry: '$(acrName).azurecr.io'
-      arguments: '--platform linux/amd64'
+      arguments: '--platform linux/amd64 --no-cache'
 
   # Build and push API 2 Docker image
   - task: Docker@2
@@ -95,4 +95,4 @@ steps:
       dockerfile: $(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile  # Putanja do Dockerfile-a za drugi API
       context: $(Build.SourcesDirectory)
       containerRegistry: '$(acrName).azurecr.io'
-      arguments: '--platform linux/amd64'
+      arguments: '--platform linux/amd64 --no-cache'
