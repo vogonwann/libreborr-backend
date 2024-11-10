@@ -44,8 +44,9 @@ steps:
       artifactName: 'drop'
       
   - script: |
-      ls -R $(Build.SourcesDirectory)
-    displayName: 'List files in source directory'
+      echo "Listing all .csproj files:"
+      find $(Build.SourcesDirectory) -name "*.csproj"
+    displayName: 'Find all .csproj files'
 
   # Docker login to ACR
   - task: Docker@2
