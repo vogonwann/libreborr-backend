@@ -73,8 +73,9 @@ steps:
   - script: |
       export DOCKER_BUILDKIT=0
       docker build -t $(acrName).azurecr.io/$(apiImage1):$(imageTag) \
-          -f $(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile \
-          --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
+      -f $(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile \
+      --platform linux/amd64 $(Build.SourcesDirectory)
+
     displayName: 'Build Docker Image for API 1 with DOCKER_BUILDKIT Disabled'
 
   - task: Docker@2
