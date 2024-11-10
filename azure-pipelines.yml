@@ -69,55 +69,34 @@ steps:
       containerRegistry: '$(acrName).azurecr.io'
       azureSubscription: 'libreborrcontainers'
 
-#  # Disable BuildKit and build Docker image for API 1
-#  - script: |
-#      export DOCKER_BUILDKIT=0
-#      docker build -t $(acrName).azurecr.io/$(apiImage1):$(imageTag) \
-#          -f $(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile \
-#          --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
-#    displayName: 'Build Docker Image for API 1 with DOCKER_BUILDKIT Disabled'
-#
-#  # Disable BuildKit and build Docker image for API 2
-#  - script: |
-#      export DOCKER_BUILDKIT=0
-#      docker build -t $(acrName).azurecr.io/$(apiImage2):$(imageTag) \
-#          -f $(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile \
-#          --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
-#    displayName: 'Build Docker Image for API 2 with DOCKER_BUILDKIT Disabled'
-#    
-#  - task: Docker@2
-#    displayName: Push libreborr-fetchbookapi Docker image to ACR
-#    inputs:
-#      command: push
-#      repository: $(acrName).azurecr.io/libreborr-fetchbookapi
-#      tags: $(Build.BuildId)
-#      containerRegistry: $(dockerRegistryServiceConnection)
-#
-#  - task: Docker@2
-#    displayName: Push libreborr-web Docker image to ACR
-#    inputs:
-#      command: push
-#      repository: $(acrName).azurecr.io/libreborr-web
-#      tags: $(Build.BuildId)
-#      containerRegistry: $(dockerRegistryServiceConnection)
-  # Build and push Web Docker image
-  - task: Docker@2
-    inputs:
-      command: 'buildAndPush'
-      repository: '$(acrName).azurecr.io/$(apiImage1)'
-      tags: '$(imageTag)'
-      dockerfile: '$(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile'  # Putanja do Dockerfile-a za prvi API
-      context: '$(Build.SourcesDirectory)'
-      containerRegistry: '$(acrName).azurecr.io'
-      arguments: '--platform linux/amd64 --no-cache'
+  # Disable BuildKit and build Docker image for API 1
+  - script: |
+      export DOCKER_BUILDKIT=0
+      docker build -t $(acrName).azurecr.io/$(apiImage1):$(imageTag) \
+          -f $(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile \
+          --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
+    displayName: 'Build Docker Image for API 1 with DOCKER_BUILDKIT Disabled'
 
-  # Build and push FetchBookApi Docker image
+  # Disable BuildKit and build Docker image for API 2
+  - script: |
+      export DOCKER_BUILDKIT=0
+      docker build -t $(acrName).azurecr.io/$(apiImage2):$(imageTag) \
+          -f $(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile \
+          --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
+    displayName: 'Build Docker Image for API 2 with DOCKER_BUILDKIT Disabled'
+    
   - task: Docker@2
+    displayName: Push libreborr-fetchbookapi Docker image to ACR
     inputs:
-      command: 'buildAndPush'
-      repository: '$(acrName).azurecr.io/$(apiImage2)'
-      tags: '$(imageTag)'
-      dockerfile: '$(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile'  # Putanja do Dockerfile-a za drugi API
-      context: '$(Build.SourcesDirectory)'
-      containerRegistry: '$(acrName).azurecr.io'
-      arguments: '--platform linux/amd64 --no-cache'
+      command: push
+      repository: $(acrName).azurecr.io/libreborr-fetchbookapi
+      tags: $(Build.BuildId)
+      containerRegistry: $(dockerRegistryServiceConnection)
+
+  - task: Docker@2
+    displayName: Push libreborr-web Docker image to ACR
+    inputs:
+      command: push
+      repository: $(acrName).azurecr.io/libreborr-web
+      tags: $(Build.BuildId)
+      containerRegistry: $(dockerRegistryServiceConnection)
