@@ -6,25 +6,26 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
-  
+
 variables:
   system.debug: true
   buildConfiguration: 'Release'
-  acrName: 'libreborrcontainers'  # Zameni sa imenom svog ACR-a
+  acrName: 'libreborrcontainers'
   apiImage1: 'libreborr-web'
   apiImage2: 'libreborr-fetchbookapi'
-  imageTag: '$(Build.BuildId)'  # Jedinstveni tag za svaku izgradnju
+  imageTag: '$(Build.BuildId)'
 
 steps:
   - checkout: self
     persistCredentials: true
     clean: true
-    
-  # Pull ASP.NET image first
+
+  # Update Docker to the latest version
   - script: |
-      docker pull mcr.microsoft.com/dotnet/aspnet:9.0
-    displayName: 'Pull ASP.NET Docker Image'
-      
+      sudo apt-get update
+      sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    displayName: 'Update Docker to Latest Version'
+
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
@@ -53,46 +54,32 @@ steps:
     inputs:
       pathToPublish: '$(Build.ArtifactStagingDirectory)'
       artifactName: 'drop'
-      
+
+  # List all files in the build context for debugging
   - script: |
-      echo "Listing all .csproj files:"
-      find $(Build.SourcesDirectory) -name "*.csproj"
-    displayName: 'Find all .csproj files'
+      echo "Listing all files in the build context:"
+      find $(Build.SourcesDirectory)
+    displayName: 'List All Files in Build Context'
 
   # Docker login to ACR
   - task: Docker@2
     inputs:
       command: 'login'
       containerRegistry: '$(acrName).azurecr.io'
-      azureSubscription: 'libreborrcontainers'  # Zameni sa nazivom svoje Azure pretplate
-      
+      azureSubscription: 'libreborrcontainers'
+
+  # Disable BuildKit and build Docker image for API 1
   - script: |
       export DOCKER_BUILDKIT=0
-    displayName: 'Build Docker Image with BuildKit Disabled'
-    
-  - script: |
-      echo "Checking if LibreBorr.Services.csproj exists"
-      find $(Build.SourcesDirectory) -name "LibreBorr.Services.csproj"
-    displayName: 'Check if LibreBorr.Services.csproj exists'
-    
-  # Build and push API 1 Docker image
-  - task: Docker@2
-    inputs:
-      command: 'buildAndPush'
-      repository: '$(acrName).azurecr.io/$(apiImage1)'
-      tags: '$(imageTag)'
-      dockerfile: '$(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile'  # Putanja do Dockerfile-a za prvi API
-      context: '$(Build.SourcesDirectory)'
-      containerRegistry: '$(acrName).azurecr.io'
-      arguments: '--platform linux/amd64 --no-cache'
+      docker build -t $(acrName).azurecr.io/$(apiImage1):$(imageTag) \
+          -f $(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile \
+          --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
+    displayName: 'Build Docker Image for API 1 with DOCKER_BUILDKIT Disabled'
 
-  # Build and push API 2 Docker image
-  - task: Docker@2
-    inputs:
-      command: 'buildAndPush'
-      repository: '$(acrName).azurecr.io/$(apiImage2)'
-      tags: '$(imageTag)'
-      dockerfile: $(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile  # Putanja do Dockerfile-a za drugi API
-      context: $(Build.SourcesDirectory)
-      containerRegistry: '$(acrName).azurecr.io'
-      arguments: '--platform linux/amd64 --no-cache'
+  # Disable BuildKit and build Docker image for API 2
+  - script: |
+      export DOCKER_BUILDKIT=0
+      docker build -t $(acrName).azurecr.io/$(apiImage2):$(imageTag) \
+          -f $(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile \
+          --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
+    displayName: 'Build Docker Image for API 2 with DOCKER_BUILDKIT Disabled'
