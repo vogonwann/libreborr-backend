@@ -14,7 +14,7 @@ public class BookMutation(IBooksContext context, ILogger<BookMutation> logger, I
     public async Task<BookResponse?> CreateBook(BookInput bookInput, [Service] ITopicEventSender sender, CancellationToken cancellationToken)
     {
         var encodedImageUrl = Uri.EscapeDataString(bookInput.Image);
-        var fetchBookImageApiUrl = configuration.GetSection("FetchBookApi").GetSection("ImageEndpoint").Value ?? "http://localhost:5104/api/books/images?imageUrl=";
+        var fetchBookImageApiUrl = configuration.GetSection("FetchBookApi").GetSection("ImageEndpoint").Value;
         var httpRequestMessage =
             new HttpRequestMessage(HttpMethod.Get, $"{fetchBookImageApiUrl}{encodedImageUrl}"); // TODO: add to config
         var httpClient = httpClientFactory.CreateClient();
