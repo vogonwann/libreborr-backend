@@ -65,9 +65,11 @@ steps:
       command: 'login'
       containerRegistry: '$(acrName).azurecr.io'
       azureSubscription: 'libreborrcontainers'  # Zameni sa nazivom svoje Azure pretplate
+      
   - script: |
       export DOCKER_BUILDKIT=0
     displayName: 'Build Docker Image with BuildKit Disabled'
+    
   # Build and push API 1 Docker image
   - task: Docker@2
     inputs:
@@ -75,7 +77,7 @@ steps:
       repository: '$(acrName).azurecr.io/$(apiImage1)'
       tags: '$(imageTag)'
       dockerfile: '$(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile'  # Putanja do Dockerfile-a za prvi API
-      context: '$(Build.SourcesDirectory)'
+      context: '$(Build.SourcesDirectory)/LibreBorr.Web'
       containerRegistry: '$(acrName).azurecr.io'
       arguments: '--platform linux/amd64'
 
