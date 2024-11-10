@@ -72,54 +72,24 @@ steps:
   # Disable BuildKit and build Docker image for API 1
   - script: |
       export DOCKER_BUILDKIT=0
-#      docker build -t $(acrName).azurecr.io/$(apiImage1):$(imageTag) \
-#      -f $(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile \
-#      --platform linux/amd64 $(Build.SourcesDirectory)
-
-#    displayName: 'Build Docker Image for API 1 with DOCKER_BUILDKIT Disabled'
-#
-#  - task: Docker@2
-#    displayName: Push libreborr-fetchbookapi Docker image to ACR
-#    inputs:
-#      command: push
-#      repository: $(acrName).azurecr.io/$(apiImage1)
-#      tags: $(imageTag)
-#      containerRegistry: $(dockerRegistryServiceConnection)
-#      arguments: '--debug'
-#
-#  # Disable BuildKit and build Docker image for API 2
-#  - script: |
-#      export DOCKER_BUILDKIT=0
-#      docker build -t $(acrName).azurecr.io/$(apiImage2):$(imageTag) \
-#          -f $(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile \
-#          --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
-#    displayName: 'Build Docker Image for API 2 with DOCKER_BUILDKIT Disabled'
-#
-#  - task: Docker@2
-#    displayName: Push libreborr-web Docker image to ACR
-#    inputs:
-#      command: push
-#      repository: $(acrName).azurecr.io/libreborr-web
-#      tags: $(imageTag)
-#      containerRegistry: $(dockerRegistryServiceConnection)
 
   - task: Docker@2
     displayName: 'Build and Push LibreBorr.Web Docker image to ACR'
     inputs:
       command: 'buildAndPush'
-      repository: '$(acrName).azurecr.io/$(apiImage1)'  # Поставите име вашег ACR репозиторијума
+      repository: '$(acrName).azurecr.io/$(apiImage1)' 
       dockerfile: '$(Build.SourcesDirectory)/LibreBorr.Web/Dockerfile'
       buildContext: '$(Build.SourcesDirectory)'
       tags: '$(imageTag)'
-      containerRegistry: '$(dockerRegistryServiceConnection)'  # Назив Azure сервисне везе за ACR
+      containerRegistry: '$(dockerRegistryServiceConnection)'  
 
   - task: Docker@2
     displayName: 'Build and Push LibreBorr.FetchBookApi Docker image to ACR'
     inputs:
       command: 'buildAndPush'
-      repository: '$(acrName).azurecr.io/$(apiImage2)'  # Поставите име вашег ACR репозиторијума
+      repository: '$(acrName).azurecr.io/$(apiImage2)'  
       dockerfile: '$(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile'
       buildContext: '$(Build.SourcesDirectory)'
       tags: '$(imageTag)'
-      containerRegistry: '$(dockerRegistryServiceConnection)'  # Назив Azure сервисне везе за ACR
+      containerRegistry: '$(dockerRegistryServiceConnection)'  
 
