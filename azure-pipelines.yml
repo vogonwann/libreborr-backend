@@ -77,6 +77,14 @@ steps:
           --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
     displayName: 'Build Docker Image for API 1 with DOCKER_BUILDKIT Disabled'
 
+  - task: Docker@2
+    displayName: Push libreborr-fetchbookapi Docker image to ACR
+    inputs:
+      command: push
+      repository: $(acrName).azurecr.io/libreborr-fetchbookapi
+      tags: $(imageTag)
+      containerRegistry: $(dockerRegistryServiceConnection)
+
   # Disable BuildKit and build Docker image for API 2
   - script: |
       export DOCKER_BUILDKIT=0
@@ -84,19 +92,11 @@ steps:
           -f $(Build.SourcesDirectory)/LibreBorr.FetchBookApi/Dockerfile \
           --platform linux/amd64 --no-cache $(Build.SourcesDirectory)
     displayName: 'Build Docker Image for API 2 with DOCKER_BUILDKIT Disabled'
-    
-  - task: Docker@2
-    displayName: Push libreborr-fetchbookapi Docker image to ACR
-    inputs:
-      command: push
-      repository: $(acrName).azurecr.io/libreborr-fetchbookapi
-      tags: $(Build.BuildId)
-      containerRegistry: $(dockerRegistryServiceConnection)
 
   - task: Docker@2
     displayName: Push libreborr-web Docker image to ACR
     inputs:
       command: push
       repository: $(acrName).azurecr.io/libreborr-web
-      tags: $(Build.BuildId)
+      tags: $(imageTag)
       containerRegistry: $(dockerRegistryServiceConnection)
