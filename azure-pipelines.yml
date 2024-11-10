@@ -15,10 +15,9 @@ variables:
   imageTag: '$(Build.BuildId)'  # Jedinstveni tag za svaku izgradnju
 
 steps:
-  - task: Checkout@1
-    displayName: 'Checkout repository'
-    inputs:
-      clean: true
+  - checkout: self
+    persistCredentials: true
+    clean: true
       
   - task: UseDotNet@2
     inputs:
