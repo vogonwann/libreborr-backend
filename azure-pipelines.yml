@@ -8,6 +8,7 @@ pool:
   vmImage: 'ubuntu-latest'
   
 variables:
+  system.debug: true
   buildConfiguration: 'Release'
   acrName: 'libreborrcontainers'  # Zameni sa imenom svog ACR-a
   apiImage1: 'libreborr-web'
