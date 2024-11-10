@@ -85,6 +85,7 @@ steps:
       repository: $(acrName).azurecr.io/$(apiImage1)
       tags: $(imageTag)
       containerRegistry: $(dockerRegistryServiceConnection)
+      arguments: '--debug'
 
   # Disable BuildKit and build Docker image for API 2
   - script: |
