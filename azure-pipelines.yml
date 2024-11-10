@@ -48,7 +48,7 @@ steps:
     inputs:
       command: 'login'
       containerRegistry: '$(acrName).azurecr.io'
-      azureSubscription: '<IME_AZURE_SUBSCRIPTION>'  # Zameni sa nazivom svoje Azure pretplate
+      azureSubscription: 'libreborrcontainers'  # Zameni sa nazivom svoje Azure pretplate
 
   # Build and push API 1 Docker image
   - task: Docker@2
