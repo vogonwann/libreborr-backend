@@ -82,7 +82,7 @@ steps:
     displayName: Push libreborr-fetchbookapi Docker image to ACR
     inputs:
       command: push
-      repository: $(acrName).azurecr.io/libreborr-fetchbookapi
+      repository: $(acrName).azurecr.io/$(apiImage1)
       tags: $(imageTag)
       containerRegistry: $(dockerRegistryServiceConnection)
 
